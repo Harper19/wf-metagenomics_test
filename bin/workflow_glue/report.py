@@ -455,7 +455,8 @@ def main(args):
                             DataTable.from_pandas(
                                     align_stats_filtered,
                                     export=True,
-                                    file_name='wf-metagenomics-alignment'
+                                    file_name='wf-metagenomics-alignment-{s}'
+                            align_stats_filtered.to_csv('wf-metagenomics-alignment-{s}.csv', index=False)
                             )
                 # Show reference scatterplot of number of reads by coverage.
                 with tabs.add_dropdown_menu("Scatter", change_header=True):
