@@ -455,7 +455,7 @@ def main(args):
                             DataTable.from_pandas(
                                     align_stats_filtered,
                                     export=True,
-                                    file_name='wf-metagenomics-alignment-{s}',
+                                    file_name='wf-metagenomics-alignment-{s}'
                             )
                             align_stats_filtered.to_csv('wf-metagenomics-alignment-{s}.csv', index=False)
 
