@@ -446,6 +446,7 @@ def main(args):
                         # Choose those species that have passed the abundance threshold.
                         align_stats = metrics[0]
                         align_stats_filtered = align_stats[align_stats[rank].isin(taxa)]
+                        # export to tsv files
                         with tabs.add_dropdown_tab(barcode):
                             p(
                                 "Only taxa present in the abundance table above the ",
@@ -455,11 +456,9 @@ def main(args):
                             DataTable.from_pandas(
                                     align_stats_filtered,
                                     export=True,
-                                    file_name='wf-metagenomics-alignment-{s}'
+                                    file_name='wf-metagenomics-alignment-{barcode}'
                             )
-                            # export align_stats_filtered files
-                            align_stats_filtered.to_csv(f'wf-metagenomics-alignment-{s}.csv', index=False , sep='\t')
-                            logger.info(f"export alignment csv-{s}")
+                            align_stats_filtered.to_csv(f'wf-metagenomics-alignment-{barcode}.tsv', index=False, sep='\t')
 
                 # Show reference scatterplot of number of reads by coverage.
                 with tabs.add_dropdown_menu("Scatter", change_header=True):
