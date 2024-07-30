@@ -214,6 +214,7 @@ process makeReport {
         --n_taxa_barplot "${params.n_taxa_barplot}"\
         ${align_stats} \
         ${amr}
+	
     """
 }
 

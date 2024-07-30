@@ -2,6 +2,8 @@
 """Create workflow report."""
 
 import json
+import os # os.cwd()
+from pathlib import Path
 
 from bokeh.models import HoverTool
 from dominate import tags as html_tags
@@ -429,12 +431,19 @@ def main(args):
     #
     if args.align_stats:
         samples_references = {}
+        # load data of all samples into the matrix samples_reference
         for s in samples:
             samples_references[s] = report_utils.load_alignment_data(
                 args.align_stats, s)
-        # make sure that the samples really have data.
+        # make sure that the samples really have data.And load the data needed for downstream calculation
         dataset_results = {k: v for k, v in samples_references.items() if v is not None}
         if len(dataset_results) >= 1:
+            # for barcode, metrics in dataset_results.items():
+            #   # Choose those species that have passed the abundance threshold.
+            #   align_stats = metrics[0]
+            #   align_stats_filtered = align_stats[align_stats[rank].isin(taxa)]
+            #   # export detailed information for each sample
+            #   align_stats_filtered.to_csv(f'wf-metagenomics-alignment-{barcode}.tsv', index=False, sep='\t')
             with report.add_section("Alignment Statistics", "References"):
                 tabs = Tabs()
                 # Show table with the detailed output.
@@ -446,7 +455,12 @@ def main(args):
                         # Choose those species that have passed the abundance threshold.
                         align_stats = metrics[0]
                         align_stats_filtered = align_stats[align_stats[rank].isin(taxa)]
-                        # export to tsv files
+                        # export detailed information for each sample
+                        # output_dir = Path(args.report).parent
+                        # output_file = os.path.join(output_dir,f'wf-metagenomics-alignment-{barcode}.tsv')
+                        align_stats_filtered.to_csv(f'../../../output/wf-metagenomics-alignment-{barcode}.tsv', index=False, sep='\t')
+                        # logger.info(f"align_stats_filtered_export_path:{output_dir}")
+                        # export to tsv files by mannually action in the html
                         with tabs.add_dropdown_tab(barcode):
                             p(
                                 "Only taxa present in the abundance table above the ",
@@ -456,10 +470,9 @@ def main(args):
                             DataTable.from_pandas(
                                     align_stats_filtered,
                                     export=True,
-                                    file_name='wf-metagenomics-alignment-{barcode}'
+                                    file_name=f'wf-metagenomics-alignment-{barcode}'
                             )
-                            align_stats_filtered.to_csv(f'wf-metagenomics-alignment-{barcode}.tsv', index=False, sep='\t')
-
+              
                 # Show reference scatterplot of number of reads by coverage.
                 with tabs.add_dropdown_menu("Scatter", change_header=True):
                     for barcode, metrics in dataset_results.items():
