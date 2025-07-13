@@ -243,6 +243,25 @@ def join_abundance_tables(taxa_trees, rank):
     df.columns.name = None
     return df
 
+# extract name of the sample sheet and link the data to the sample sheet
+def extract_sample_name(path):
+    """Extract sample name from the path."""
+    # Get the last part of the path
+    sample_name = os.path.basename(path)
+    # Remove the file extension
+    sample_name = os.path.splitext(sample_name)[0]
+
+
+    return sample_name  
+
+
+
+
+
+
+
+
+
 
 def main(args):
     """Run the entry point."""

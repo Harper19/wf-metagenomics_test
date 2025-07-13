@@ -455,7 +455,10 @@ def main(args):
                         # Choose those species that have passed the abundance threshold.
                         align_stats = metrics[0]
                         align_stats_filtered = align_stats[align_stats[rank].isin(taxa)]
+                        # add column of genome copy number 
+                        align_stats_filtered['genome_copy_number'] = align_stats_filtered['meandepth']*align_stats_filtered['endpos']/align_stats_filtered['covbases']
                         # export detailed information for each sample
+                        
                         # output_dir = Path(args.report).parent
                         # output_file = os.path.join(output_dir,f'wf-metagenomics-alignment-{barcode}.tsv')
                         align_stats_filtered.to_csv(f'../../../output/wf-metagenomics-alignment-{barcode}.tsv', index=False, sep='\t')
@@ -483,6 +486,14 @@ def main(args):
                     for barcode, metrics in dataset_results.items():
                         with tabs.add_dropdown_tab(barcode):
                             EZChart(metrics[2], 'epi2melabs')
+
+        # Calibration:
+        
+
+
+
+
+
     report.write(args.report)
     logger.info(f"Report written to {args.report}.")
 
