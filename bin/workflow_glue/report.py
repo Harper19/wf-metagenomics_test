@@ -487,7 +487,13 @@ def main(args):
                         with tabs.add_dropdown_tab(barcode):
                             EZChart(metrics[2], 'epi2melabs')
 
-        # Calibration:
+        # summarize the alignment stats for each sample into one table (need to remove the datapoints under the threshold)
+        # how to set up the threshold...
+        
+
+
+        #
+        
         
 
 
